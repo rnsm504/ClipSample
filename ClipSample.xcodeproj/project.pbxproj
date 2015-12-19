@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE9F0C5B1C19CE3200C7C83B /* 2015-12-11.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = EE9F0C5A1C19CE3200C7C83B /* 2015-12-11.jpeg */; };
 		EED3FFBB1C132CE100C887F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED3FFBA1C132CE100C887F2 /* AppDelegate.swift */; };
 		EED3FFBD1C132CE100C887F2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED3FFBC1C132CE100C887F2 /* ViewController.swift */; };
 		EED3FFC01C132CE100C887F2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EED3FFBE1C132CE100C887F2 /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EE9F0C5A1C19CE3200C7C83B /* 2015-12-11.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "2015-12-11.jpeg"; sourceTree = "<group>"; };
 		EED3FFB71C132CE100C887F2 /* ClipSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EED3FFBA1C132CE100C887F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EED3FFBC1C132CE100C887F2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				EED3FFBE1C132CE100C887F2 /* Main.storyboard */,
 				EED3FFC11C132CE100C887F2 /* Assets.xcassets */,
 				EED3FFC31C132CE100C887F2 /* LaunchScreen.storyboard */,
+				EE9F0C5A1C19CE3200C7C83B /* 2015-12-11.jpeg */,
 				EED3FFC61C132CE200C887F2 /* Info.plist */,
 			);
 			path = ClipSample;
@@ -231,6 +234,7 @@
 			files = (
 				EED3FFC51C132CE100C887F2 /* LaunchScreen.storyboard in Resources */,
 				EED3FFC21C132CE100C887F2 /* Assets.xcassets in Resources */,
+				EE9F0C5B1C19CE3200C7C83B /* 2015-12-11.jpeg in Resources */,
 				EED3FFC01C132CE100C887F2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,6 +486,7 @@
 				EED3FFE11C132CE300C887F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EED3FFE21C132CE300C887F2 /* Build configuration list for PBXNativeTarget "ClipSampleTests" */ = {
 			isa = XCConfigurationList;
@@ -490,6 +495,7 @@
 				EED3FFE41C132CE300C887F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EED3FFE51C132CE300C887F2 /* Build configuration list for PBXNativeTarget "ClipSampleUITests" */ = {
 			isa = XCConfigurationList;
@@ -498,6 +504,7 @@
 				EED3FFE71C132CE300C887F2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
