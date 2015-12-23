@@ -202,35 +202,7 @@ class ViewController: UIViewController {
         }
     }
     
-    //作ったけど今回の要件に合わず！！（とりあえず残しておく)
-//    func capturedImage() -> UIImage{
-//        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 0)
-//        let context = UIGraphicsGetCurrentContext()
-//        CGContextSaveGState(context)
-//        
-//        self.view.layer.presentationLayer()?.renderInContext(context!)
-//        
-//        let image = UIGraphicsGetImageFromCurrentImageContext()
-//        CGContextRestoreGState(context)
-//        UIGraphicsEndImageContext()
-//        
-//        return image
-//    }
-//    
-//    func capturedImage2() -> UIImage{
-//        
-//        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 0)
-//        let context = UIGraphicsGetCurrentContext()
-//        CGContextSaveGState(context)
-//        
-//        self.view.layer.presentationLayer()?.renderInContext(context!)
-//        
-//        let image = UIGraphicsGetImageFromCurrentImageContext()
-//        CGContextRestoreGState(context)
-//        UIGraphicsEndImageContext()
-//        
-//        return image
-//    }
+
     
     //パスの形を元にマスク画像を作成
     func createMaskImage() -> UIImage{
