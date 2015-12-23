@@ -12,19 +12,26 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    //切り取り線を表示する
     var clipLayer : CAShapeLayer!
  
+    //切り取り線
     var path : CGMutablePathRef!
+    //実画像への切り取り線
     var convertPath : CGMutablePathRef!
     
+    //切り取った画像の左上と右下の座標
     var minX : CGFloat!
     var maxX : CGFloat!
     var minY : CGFloat!
     var maxY : CGFloat!
     
+    //画像を表示するView
     var imageView : UIImageView!
+    //切り取った画像を表示するView
     var clipImageView : UIImageView!
     
+    //切り取った画像が存在するか
     var isClipView : Bool = false
     
     override func viewDidLoad() {
@@ -155,11 +162,6 @@ class ViewController: UIViewController {
                 
                 clipLayer.path = path
                 
-                let s = UIScreen.mainScreen().scale
-                
-                let scale : CGRect = CGRectMake((minX-5)*s, (minY-38)*s, (maxX-minX+10)*s, (maxY-minY+5)*s)
-                let clipScale = CGRectMake(minX-5, (minY), (maxX-minX+10), (maxY-minY+5))
-                
                 let maskImage = createMaskImage()
                 let m : CGImageRef = maskImage.CGImage!
                 let mask = CGImageMaskCreate(CGImageGetWidth(m),
@@ -171,18 +173,23 @@ class ViewController: UIViewController {
                     nil,
                     false)
                 
-                //let motoImage : UIImage = reDrawImage("2015-12-11.jpeg")
+                //CGImageにしたら向きが変わることがあるのでimageを作り直す
                 let motoImage : UIImage = reDrawImage(imageView.image!)
                 let masked : CGImageRef = CGImageCreateWithMask(motoImage.CGImage, mask)!
                 let maskedImage : UIImage = UIImage(CGImage: masked, scale: 1.0, orientation: UIImageOrientation.Up)
                 
+                //切り取った画像を囲める画像を作成
+                let s = UIScreen.mainScreen().scale
+                let scale : CGRect = CGRectMake((minX-5)*s, (minY-38)*s, (maxX-minX+10)*s, (maxY-minY+5)*s)
                 let convertScale = convertRectFromView(scale)
                 
                 let clipedImageRef : CGImageRef = CGImageCreateWithImageInRect(maskedImage.CGImage, convertScale)!
                 let clipedImage : UIImage = UIImage(CGImage: clipedImageRef)
                 
                 
+                //切り取った画像を画面上に追加
                 //clipImageView = UIImageView(frame: self.view.frame)
+                let clipScale = CGRectMake(minX-5, (minY), (maxX-minX+10), (maxY-minY+5))
                 clipImageView = UIImageView(frame:clipScale)
                 clipImageView.userInteractionEnabled = true
                 clipImageView.contentMode = UIViewContentMode.ScaleAspectFit
@@ -198,6 +205,7 @@ class ViewController: UIViewController {
                 
                 clipLayer.path = nil
                 
+                //切り取られた箇所を灰色にする
                 imageView.image = clipedMotoImage(imageView.image!)
                 
             }
