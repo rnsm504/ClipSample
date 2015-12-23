@@ -4,6 +4,8 @@
 //
 //  Created by Kuze Masanori on 2015/12/05.
 //  Copyright © 2015年 Kuze Masanori. All rights reserved.
+//  Released under the MIT license
+//  http://opensource.org/licenses/mit-license.php
 //
 
 import UIKit
