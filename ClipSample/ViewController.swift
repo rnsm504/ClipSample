@@ -140,11 +140,9 @@ class ViewController: UIViewController {
                 
             } else {
                 
-//                CGPathAddLineToPoint(path, nil, location.x, location.y)
                 path.addLine(to: CGPoint(x: location.x, y: location.y))
                 
                 let convertLocation = convertPointFromView(location)
-//                CGPathAddLineToPoint(convertPath, nil, convertLocation.x, convertLocation.y)
                 convertPath.addLine(to: CGPoint(x: convertLocation.x, y: convertLocation.y))
                 
                 //NSLog("%f, %f", convertLocation.x.native, convertLocation.y.native)
