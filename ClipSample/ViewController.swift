@@ -9,6 +9,30 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ViewController: UIViewController {
 
@@ -16,9 +40,9 @@ class ViewController: UIViewController {
     var clipLayer : CAShapeLayer!
  
     //切り取り線
-    var path : CGMutablePathRef!
+    var path : CGMutablePath!
     //実画像への切り取り線
-    var convertPath : CGMutablePathRef!
+    var convertPath : CGMutablePath!
     
     //切り取った画像の左上と右下の座標
     var minX : CGFloat!
@@ -40,7 +64,7 @@ class ViewController: UIViewController {
         let image : UIImage = UIImage(named: "2015-12-11.jpeg")!
         
         imageView = UIImageView(frame: self.view.frame)
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.image = image
         self.view.addSubview(imageView)
@@ -48,10 +72,10 @@ class ViewController: UIViewController {
         
         clipLayer = CAShapeLayer()
         clipLayer.frame = self.view.frame
-        clipLayer.backgroundColor = UIColor.clearColor().CGColor
+        clipLayer.backgroundColor = UIColor.clear.cgColor
         clipLayer.name = "clipLayer"
-        clipLayer.strokeColor = UIColor.blueColor().CGColor
-        clipLayer.fillColor = UIColor.clearColor().CGColor
+        clipLayer.strokeColor = UIColor.blue.cgColor
+        clipLayer.fillColor = UIColor.clear.cgColor
         clipLayer.lineWidth = 3.0
         clipLayer.lineDashPattern = [2,3]
         
@@ -67,11 +91,11 @@ class ViewController: UIViewController {
     }
 
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         
         if let touch = touches.first {
-            let location = touch.locationInView(self.view)
+            let location = touch.location(in: self.view)
             
             if(isClipView){
                 if((location.x >= clipImageView.frame.origin.x || location.x < clipImageView.frame.origin.x) ||
@@ -86,14 +110,14 @@ class ViewController: UIViewController {
                 minY = 0
                 maxY = 0
                 
-                path = CGPathCreateMutable()
-                convertPath = CGPathCreateMutable()
+                path = CGMutablePath()
+                convertPath = CGMutablePath()
                 
-                CGPathMoveToPoint(path, nil, location.x, location.y)
+                path.move(to: CGPoint(x: location.x, y: location.y))
                 
                 let convertLocation = convertPointFromView(location)
-                CGPathMoveToPoint(convertPath, nil, convertLocation.x, convertLocation.y)
-                
+                convertPath.move(to: CGPoint(x: convertLocation.x, y: convertLocation.y))
+
                 minX = location.x
                 maxX = location.x
                 minY = location.y
@@ -103,11 +127,11 @@ class ViewController: UIViewController {
     }
     
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesMoved(touches, withEvent: event)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
         
         if let touch = touches.first {
-            let location = touch.locationInView(self.view)
+            let location = touch.location(in: self.view)
             
             if(isClipView){
                 
@@ -116,10 +140,13 @@ class ViewController: UIViewController {
                 
             } else {
                 
-                CGPathAddLineToPoint(path, nil, location.x, location.y)
+//                CGPathAddLineToPoint(path, nil, location.x, location.y)
+                path.addLine(to: CGPoint(x: location.x, y: location.y))
                 
                 let convertLocation = convertPointFromView(location)
-                CGPathAddLineToPoint(convertPath, nil, convertLocation.x, convertLocation.y)
+//                CGPathAddLineToPoint(convertPath, nil, convertLocation.x, convertLocation.y)
+                convertPath.addLine(to: CGPoint(x: convertLocation.x, y: convertLocation.y))
+                
                 //NSLog("%f, %f", convertLocation.x.native, convertLocation.y.native)
                 
                 clipLayer.path = path
@@ -133,11 +160,11 @@ class ViewController: UIViewController {
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
             
         if let touch = touches.first {
-            let location = touch.locationInView(self.view)
+            let location = touch.location(in: self.view)
             
             if(isClipView){
                 
@@ -150,10 +177,10 @@ class ViewController: UIViewController {
                 
             } else {
                 
-                CGPathMoveToPoint(path, nil, location.x, location.y)
+                path.move(to: CGPoint(x: location.x, y: location.y))
                 
                 let convertLocation = convertPointFromView(location)
-                CGPathAddLineToPoint(convertPath, nil, convertLocation.x, convertLocation.y)
+                convertPath.addLine(to: CGPoint(x: convertLocation.x, y: convertLocation.y))
                 
                 if(location.x < minX){ minX = location.x }
                 if(location.x > maxX){ maxX = location.x }
@@ -163,40 +190,40 @@ class ViewController: UIViewController {
                 clipLayer.path = path
                 
                 let maskImage = createMaskImage()
-                let m : CGImageRef = maskImage.CGImage!
-                let mask = CGImageMaskCreate(CGImageGetWidth(m),
-                    CGImageGetHeight(m),
-                    CGImageGetBitsPerComponent(m),
-                    CGImageGetBitsPerPixel(m),
-                    CGImageGetBytesPerRow(m),
-                    CGImageGetDataProvider(m),
-                    nil,
-                    false)
+                let m : CGImage = maskImage.cgImage!
+                let mask = CGImage(maskWidth: m.width,
+                    height: m.height,
+                    bitsPerComponent: m.bitsPerComponent,
+                    bitsPerPixel: m.bitsPerPixel,
+                    bytesPerRow: m.bytesPerRow,
+                    provider: m.dataProvider!,
+                    decode: nil,
+                    shouldInterpolate: false)
                 
                 //CGImageにしたら向きが変わることがあるのでimageを作り直す
                 let motoImage : UIImage = reDrawImage(imageView.image!)
-                let masked : CGImageRef = CGImageCreateWithMask(motoImage.CGImage, mask)!
-                let maskedImage : UIImage = UIImage(CGImage: masked, scale: 1.0, orientation: UIImageOrientation.Up)
+                let masked : CGImage = motoImage.cgImage!.masking(mask!)!
+                let maskedImage : UIImage = UIImage(cgImage: masked, scale: 1.0, orientation: UIImageOrientation.up)
                 
                 //切り取った画像を囲める画像を作成
-                let s = UIScreen.mainScreen().scale
-                let scale : CGRect = CGRectMake((minX-5)*s, (minY-38)*s, (maxX-minX+10)*s, (maxY-minY+5)*s)
+                let s = UIScreen.main.scale
+                let scale : CGRect = CGRect(x: (minX-5)*s, y: (minY-38)*s, width: (maxX-minX+10)*s, height: (maxY-minY+5)*s)
                 let convertScale = convertRectFromView(scale)
                 
-                let clipedImageRef : CGImageRef = CGImageCreateWithImageInRect(maskedImage.CGImage, convertScale)!
-                let clipedImage : UIImage = UIImage(CGImage: clipedImageRef)
+                let clipedImageRef : CGImage = maskedImage.cgImage!.cropping(to: convertScale)!
+                let clipedImage : UIImage = UIImage(cgImage: clipedImageRef)
                 
                 
                 //切り取った画像を画面上に追加
                 //clipImageView = UIImageView(frame: self.view.frame)
-                let clipScale = CGRectMake(minX-5, (minY), (maxX-minX+10), (maxY-minY+5))
+                let clipScale = CGRect(x: minX-5, y: (minY), width: (maxX-minX+10), height: (maxY-minY+5))
                 clipImageView = UIImageView(frame:clipScale)
-                clipImageView.userInteractionEnabled = true
-                clipImageView.contentMode = UIViewContentMode.ScaleAspectFit
+                clipImageView.isUserInteractionEnabled = true
+                clipImageView.contentMode = UIViewContentMode.scaleAspectFit
                 clipImageView.clipsToBounds = true
                 clipImageView.image = clipedImage
                 clipImageView.layer.borderWidth = 2.0
-                clipImageView.layer.borderColor = UIColor.blackColor().CGColor
+                clipImageView.layer.borderColor = UIColor.black.cgColor
                 clipImageView.layer.cornerRadius = 10.0
                 self.view.addSubview(clipImageView)
                 
@@ -219,64 +246,64 @@ class ViewController: UIViewController {
         
         UIGraphicsBeginImageContextWithOptions(imageView.image!.size, false, 0)
         let context = UIGraphicsGetCurrentContext()
-        CGContextSaveGState(context)
+        context?.saveGState()
         
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, CGRectMake(0, 0, imageView.image!.size.width, imageView.image!.size.height))
-        CGContextAddPath(context, convertPath)
-        CGContextSetFillColorWithColor(context, UIColor.blackColor().CGColor)
-        CGContextDrawPath(context, CGPathDrawingMode.Fill)
+        context?.setFillColor(UIColor.white.cgColor)
+        context?.fill(CGRect(x: 0, y: 0, width: imageView.image!.size.width, height: imageView.image!.size.height))
+        context?.addPath(convertPath)
+        context?.setFillColor(UIColor.black.cgColor)
+        context?.drawPath(using: CGPathDrawingMode.fill)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
-        CGContextRestoreGState(context)
+        context?.restoreGState()
         UIGraphicsEndImageContext()
 
-        return image
+        return image!
     }
     
     //写真の向きがおかしくなるので、作り直す
-    func reDrawImage(img: UIImage) -> UIImage{
+    func reDrawImage(_ img: UIImage) -> UIImage{
         
         let motoImage = img
         
         UIGraphicsBeginImageContextWithOptions((motoImage.size), false, 0)
         let context = UIGraphicsGetCurrentContext()
-        CGContextSaveGState(context)
+        context?.saveGState()
         
-        motoImage.drawInRect(CGRectMake(0, 0, (motoImage.size.width), (motoImage.size.height)))
+        motoImage.draw(in: CGRect(x: 0, y: 0, width: (motoImage.size.width), height: (motoImage.size.height)))
         
         let reImage = UIGraphicsGetImageFromCurrentImageContext()
-        CGContextRestoreGState(context)
+        context?.restoreGState()
         UIGraphicsEndImageContext()
         
-        return reImage
+        return reImage!
     }
     
 
     //切り抜かれた箇所を灰色にする
-    func clipedMotoImage(img: UIImage) -> UIImage{
+    func clipedMotoImage(_ img: UIImage) -> UIImage{
         
         let motoImage = img
         
         UIGraphicsBeginImageContextWithOptions((motoImage.size), false, 0)
         let context = UIGraphicsGetCurrentContext()
-        CGContextSaveGState(context)
+        context?.saveGState()
         
-        motoImage.drawInRect(CGRectMake(0, 0, (motoImage.size.width), (motoImage.size.height)))
-        CGContextAddPath(context, convertPath)
-        CGContextSetFillColorWithColor(context, UIColor.grayColor().CGColor)
-        CGContextDrawPath(context, CGPathDrawingMode.Fill)
+        motoImage.draw(in: CGRect(x: 0, y: 0, width: (motoImage.size.width), height: (motoImage.size.height)))
+        context?.addPath(convertPath)
+        context?.setFillColor(UIColor.gray.cgColor)
+        context?.drawPath(using: CGPathDrawingMode.fill)
         
         
         let reImage = UIGraphicsGetImageFromCurrentImageContext()
-        CGContextRestoreGState(context)
+        context?.restoreGState()
         UIGraphicsEndImageContext()
         
-        return reImage
+        return reImage!
     }
     
     //画面の座標を画像の座標に変換する
-    func convertPointFromView(viewPoint : CGPoint) ->CGPoint{
+    func convertPointFromView(_ viewPoint : CGPoint) ->CGPoint{
         
         var imagePoint : CGPoint = viewPoint
         
@@ -299,18 +326,18 @@ class ViewController: UIViewController {
     }
     
     
-    func convertRectFromView(viewRect : CGRect) ->CGRect{
+    func convertRectFromView(_ viewRect : CGRect) ->CGRect{
         
         let viewTopLeft = viewRect.origin
-        let viewBottomRight = CGPointMake(CGRectGetMaxX(viewRect), CGRectGetMaxY(viewRect))
+        let viewBottomRight = CGPoint(x: viewRect.maxX, y: viewRect.maxY)
         
         let imageTopLeft = convertPointFromView(viewTopLeft)
         let imageBottomRight = convertPointFromView(viewBottomRight)
         
         var imageRect : CGRect = CGRect()
         imageRect.origin = imageTopLeft
-        imageRect.size = CGSizeMake(abs(imageBottomRight.x - imageTopLeft.x),
-                            abs(imageBottomRight.y - imageTopLeft.y))
+        imageRect.size = CGSize(width: abs(imageBottomRight.x - imageTopLeft.x),
+                            height: abs(imageBottomRight.y - imageTopLeft.y))
         return imageRect
         
     }
