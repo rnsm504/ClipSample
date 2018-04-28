@@ -196,13 +196,16 @@
 				TargetAttributes = {
 					EED3FFB61C132CE100C887F2 = {
 						CreatedOnToolsVersion = 7.1.1;
+						LastSwiftMigration = 0830;
 					};
 					EED3FFCA1C132CE200C887F2 = {
 						CreatedOnToolsVersion = 7.1.1;
+						LastSwiftMigration = 0830;
 						TestTargetID = EED3FFB61C132CE100C887F2;
 					};
 					EED3FFD51C132CE300C887F2 = {
 						CreatedOnToolsVersion = 7.1.1;
+						LastSwiftMigration = 0830;
 						TestTargetID = EED3FFB61C132CE100C887F2;
 					};
 				};
@@ -405,6 +408,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.blogspot.rnsm504.ClipSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -416,6 +420,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.blogspot.rnsm504.ClipSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -427,6 +432,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.blogspot.rnsm504.ClipSampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipSample.app/ClipSample";
 			};
 			name = Debug;
@@ -439,6 +445,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.blogspot.rnsm504.ClipSampleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipSample.app/ClipSample";
 			};
 			name = Release;
@@ -450,6 +457,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.blogspot.rnsm504.ClipSampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ClipSample;
 				USES_XCTRUNNER = YES;
 			};
@@ -462,6 +470,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jp.blogspot.rnsm504.ClipSampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = ClipSample;
 				USES_XCTRUNNER = YES;
 			};
